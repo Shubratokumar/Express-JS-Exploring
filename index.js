@@ -27,11 +27,8 @@ app.post('/api/courses', (req, res)=>{
     // input validation
     const {error} = validateCourse(req.body);
 
-    if(error){
-        // 400 Bad Request
-        res.status(400).send(error.details[0].message)
-        return;
-    }
+    if(error) return  res.status(400).send(error.details[0].message);
+
     const course = {
         id: courses.length + 1,
         name: req.body.name
@@ -44,15 +41,11 @@ app.post('/api/courses', (req, res)=>{
 app.put('/api/courses/:id', (req, res)=>{
     const id = parseInt(req.params.id);
     const course = courses.find(c => c.id === id);
-    if(!course) res.status(404).send("The course you finding with the given ID was not found.");
+    if(!course) return res.status(404).send("The course you finding with the given ID was not found.");
 
     const {error} = validateCourse(req.body);
 
-    if(error){
-        // 400 Bad Request
-        res.status(400).send(error.details[0].message)
-        return;
-    }
+    if(error) return  res.status(400).send(error.details[0].message)
     // Update Course
     course.name = req.body.name;
     res.send(course);
@@ -65,12 +58,24 @@ function validateCourse (course){
     return Joi.string().validate(course, schema);
 }
 
+// Delete api
+app.delete('/api/courses/:id', (req, res) =>{
+    const id = parseInt(req.params.id);
+    const course = courses.find(c => c.id === id);
+    if(!course) return res.status(404).send("The course you finding with the given ID was not found.");
+
+    // Delete 
+    const index = courses.indexOf(course);
+    courses.splice(index, 1);
+
+    res.send(course);
+})
 
 // Route Parameters
 app.get('/api/courses/:id', (req, res)=>{
     const id = parseInt(req.params.id);
     const course = courses.find(c => c.id === id);
-    if(!course) res.status(404).send("The course you finding with the given ID was not found.")
+    if(!course) return res.status(404).send("The course you finding with the given ID was not found.")
     res.status(200).send(course);
 })
 
