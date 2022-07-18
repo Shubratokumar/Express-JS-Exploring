@@ -5,7 +5,10 @@ const authenticate = require('./Authentication')
 const app = express();
 const port = process.env.PORT || 3000 ;
 
-app.use(express.json());
+// Build-in Middlewares
+app.use(express.json()); // req.body
+app.use(express.urlencoded({ extended : true })); // key=value&key=value
+app.use(express.static('public'))  // for html css txt files. with the help of the middleware we can serve the static files.
 
 // middleware
 app.use(logger);
@@ -31,9 +34,9 @@ app.get('/api/courses', (req, res) => {
 // POST API
 app.post('/api/courses', (req, res)=>{
     // input validation
-    const {error} = validateCourse(req.body);
+    /* const {error} = validateCourse(req.body);
 
-    if(error) return  res.status(400).send(error.details[0].message);
+    if(error) return  res.status(400).send(error.details[0].message); */
 
     const course = {
         id: courses.length + 1,
