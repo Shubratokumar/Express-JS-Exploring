@@ -1,19 +1,15 @@
 const express = require('express');
 const Joi = require('joi');
+const logger = require('./Logger');
+const authenticate = require('./Authentication') 
 const app = express();
 const port = process.env.PORT || 3000 ;
 
 app.use(express.json());
 
 // middleware
-app.use((req, res, next) => {
-    console.log("Logging...");
-    next()
-})
-app.use((req, res, next) => {
-    console.log("Authenticating...");
-    next()
-})
+app.use(logger);
+app.use(authenticate);
 
 const courses = [
     { id: 1, name: "course1"},
