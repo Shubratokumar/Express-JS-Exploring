@@ -3,6 +3,9 @@ const Joi = require('joi');
 const helmet = require("helmet");
 const morgan = require("morgan");
 const config = require('config');
+const debug = require('debug')('app:startup');
+// const startupDebugger = require('debug')('app:startup');
+// const dbDebugger = require('debug')('app:db');
 const logger = require('./Logger');
 const authenticate = require('./Authentication') 
 const app = express();
@@ -26,11 +29,14 @@ app.use(helmet());
 console.log('Application Name: ' + config.get('name'));
 console.log('Mail Server: ' + config.get('mail.host'));
 console.log('Mail Password: ' + config.get('mail.password'));
+
 // Knowing Environment
 if( app.get('env') === 'development'){
     app.use(morgan("tiny"));
-    console.log("Morgan enabled... ");
+    debug("Morgan enabled ...")
 }
+/* // DB work
+dbDebugger('Connected to the Database...') */
 
 // middleware
 app.use(logger);
