@@ -5,6 +5,16 @@ const port = process.env.PORT || 3000 ;
 
 app.use(express.json());
 
+// middleware
+app.use((req, res, next) => {
+    console.log("Logging...");
+    next()
+})
+app.use((req, res, next) => {
+    console.log("Authenticating...");
+    next()
+})
+
 const courses = [
     { id: 1, name: "course1"},
     { id: 2, name: "course2"},
