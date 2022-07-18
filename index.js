@@ -1,7 +1,8 @@
 const express = require('express');
 const Joi = require('joi');
 const helmet = require("helmet");
-const morgan = require("morgan")
+const morgan = require("morgan");
+const config = require('config');
 const logger = require('./Logger');
 const authenticate = require('./Authentication') 
 const app = express();
@@ -20,6 +21,11 @@ app.use(express.static('public'))  // for html css txt files. with the help of t
 
 // Third party Middlewares
 app.use(helmet());
+
+// Configuration
+console.log('Application Name: ' + config.get('name'));
+console.log('Mail Server: ' + config.get('mail.host'));
+console.log('Mail Password: ' + config.get('mail.password'));
 // Knowing Environment
 if( app.get('env') === 'development'){
     app.use(morgan("tiny"));
