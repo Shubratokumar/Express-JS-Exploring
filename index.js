@@ -12,6 +12,11 @@ const app = express();
 const port = process.env.PORT || 3000 ;
 
 
+// template engines
+app.set('view engine', 'pug');
+app.set('views', './views'); // default
+
+
 // Environment(current)
 /* console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
 console.log(`app: ${app.get('env')}`) */
@@ -28,7 +33,7 @@ app.use(helmet());
 // Configuration
 console.log('Application Name: ' + config.get('name'));
 console.log('Mail Server: ' + config.get('mail.host'));
-console.log('Mail Password: ' + config.get('mail.password'));
+// console.log('Mail Password: ' + config.get('mail.password'));
 
 // Knowing Environment
 if( app.get('env') === 'development'){
@@ -52,7 +57,7 @@ const courses = [
 ]
 
 app.get('/', (req, res) =>{
-    res.send("Hello World !!! Can you here me ?")
+    res.render('index', { title: "My Express App", message: "Hello"});
 });
 
 app.get('/api/courses', (req, res) => {
