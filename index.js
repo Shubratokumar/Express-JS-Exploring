@@ -1,5 +1,7 @@
 const express = require('express');
 const Joi = require('joi');
+const helmet = require("helmet");
+const morgan = require("morgan")
 const logger = require('./Logger');
 const authenticate = require('./Authentication') 
 const app = express();
@@ -9,6 +11,10 @@ const port = process.env.PORT || 3000 ;
 app.use(express.json()); // req.body
 app.use(express.urlencoded({ extended : true })); // key=value&key=value
 app.use(express.static('public'))  // for html css txt files. with the help of the middleware we can serve the static files.
+
+// Third party Middlewares
+app.use(helmet());
+app.use(morgan("tiny"));
 
 // middleware
 app.use(logger);
