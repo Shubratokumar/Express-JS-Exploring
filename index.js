@@ -7,6 +7,12 @@ const authenticate = require('./Authentication')
 const app = express();
 const port = process.env.PORT || 3000 ;
 
+
+// Environment(current)
+/* console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+console.log(`app: ${app.get('env')}`) */
+
+
 // Build-in Middlewares
 app.use(express.json()); // req.body
 app.use(express.urlencoded({ extended : true })); // key=value&key=value
@@ -14,7 +20,11 @@ app.use(express.static('public'))  // for html css txt files. with the help of t
 
 // Third party Middlewares
 app.use(helmet());
-app.use(morgan("tiny"));
+// Knowing Environment
+if( app.get('env') === 'development'){
+    app.use(morgan("tiny"));
+    console.log("Morgan enabled... ");
+}
 
 // middleware
 app.use(logger);
